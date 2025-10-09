@@ -28,11 +28,21 @@ class FlightBase: public StateInterface {
         // 状態IDの取得
         virtual const StateID getStateID() const = 0;
 
-        // 各状態での処理
-        virtual StateErrorCode onUpdate(StateContext& context) = 0;
+        // 各状態での処理（姿勢と目標値からPWMを計算する）
+        virtual StateErrorCode calcPwm(StateContext& context) = 0;
 
         // 各状態での状態遷移処理
         virtual StateID decideNextState(StateContext& context) = 0;     
+
+        // LEDをつける（ミッション用）
+        virtual void turnOnLED() {};
+
+    private:
+
+        // 共通処理
+        StateErrorCode getSensorData(StateContext& context);
+        StateErrorCode calcAttitude(StateContext& context);
+        StateErrorCode generatePwm(StateContext& context);
 };
 
 #endif /* FLIGHT_BASE_HPP_ */

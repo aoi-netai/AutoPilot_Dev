@@ -2,6 +2,8 @@
 
 StateID InitState::decideNextState(StateContext& context) {
 
+    // context.initflgs
+
     return StateID::INIT_STATE;
 }
 

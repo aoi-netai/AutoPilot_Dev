@@ -3,6 +3,13 @@
 
 #include <cstdint>
 
+struct InitFlags{
+
+    bool sbus_firstdata_received = false;
+    bool imu_initialized = false;
+    bool baro_initialized = false;
+};
+
 // SBUSデータ構造体
 struct SbusData {
 
@@ -29,6 +36,7 @@ struct StateContext {
     float altitude = 0.0f; // Altitude from ground level
 
     SbusData sbus_data;
+    InitFlags init_flags;
 
     // PIDやPWM、場合によってはシリアルやセンサーのインスタンスを追加して共有しておく
 };

@@ -32,9 +32,9 @@ enum class StateErrorCode : uint8_t {
 
 struct StateResult {
 
-    StateID next_state;
-    StateErrorCode error_code;
-    bool is_state_changed;
+    StateID next_state = StateID::FAIL_SAFE_STATE;
+    StateErrorCode error_code = StateErrorCode::NONE;
+    bool is_state_changed = false;
 }; 
 
 #endif /* INC_STATE_UTILITY_HPP_ */

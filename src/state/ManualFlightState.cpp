@@ -5,7 +5,7 @@ StateID ManualFlightState::decideNextState(StateContext& context) {
     return StateID::MANUAL_FLIGHT_STATE;
 }
 
-StateErrorCode ManualFlightState::onUpdate(StateContext& context) {
+StateErrorCode ManualFlightState::calcPwm(StateContext& context) {
 
     return StateErrorCode::NONE;
 }

@@ -5,7 +5,7 @@ StateID FigureEightState::decideNextState(StateContext& context) {
     return StateID::FIGURE_EIGHT_STATE;
 }
 
-StateErrorCode FigureEightState::onUpdate(StateContext& context) {
+StateErrorCode FigureEightState::calcPwm(StateContext& context) {
 
     return StateErrorCode::NONE;
 }
