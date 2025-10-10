@@ -1,6 +1,6 @@
 /* ClimbingTurnState.cpp
 *
-*  上昇ターン処理
+*  上昇旋回
 */
 
 #include "state/headers/FlightBaseHeaders.hpp"

@@ -1,6 +1,6 @@
 /* DisarmState.cpp
 *
-*  着陸・それに伴う処理
+*  Disarm
 */
 
 #include "state/headers/PostFlightBaseHeaders.hpp"

@@ -36,9 +36,6 @@ class FlightBase: public StateInterface {
         // 各状態での状態遷移処理
         virtual StateID decideNextState(StateContext& context) = 0;     
 
-        // LEDをつける（ミッション用）
-        virtual void turnOnLED() {};
-
     private:
 
         // 共通処理

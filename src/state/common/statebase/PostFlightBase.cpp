@@ -22,6 +22,8 @@ StateResult PostFlightBase::update(StateContext& context) {
 
     // 共通処理（各状態処理の前に行う）
 
+    // モーター停止コードを書いておきたい（安全のため）
+
 
     // 各状態での処理
     result.error_code = onUpdate(context);

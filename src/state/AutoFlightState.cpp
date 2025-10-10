@@ -1,6 +1,6 @@
 /* AutoFlightState.cpp
 *
-*  自律飛行処理
+*   自動操縦
 */
 
 #include "state/headers/AutoFlightBaseHeaders.hpp"

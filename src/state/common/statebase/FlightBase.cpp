@@ -20,17 +20,16 @@ StateResult FlightBase::update(StateContext& context) {
         result.is_state_changed = true;
     }
 
-    // 共通処理（各状態処理の前に行う）
+    // センサーデータの取得
     getSensorData(context);
 
+    // 姿勢の計算
     calcAttitude(context);
 
-
-    // 各状態での処理
+    // 各状態での処理（PID・PWM計算）
     result.error_code = calcPwm(context);
     
-
-    // 共通処理（各状態処理の後に行う）
+    // PWMの出力
     generatePwm(context);
 
     return result;

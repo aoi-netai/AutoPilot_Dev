@@ -1,6 +1,6 @@
 /* FigureEightState.cpp
 *
-*  フィギュアエイト処理
+*  8の字飛行
 */
 
 #include "state/headers/FlightBaseHeaders.hpp"

@@ -1,6 +1,6 @@
 /* PreFlightState.cpp
 *
-*  PreFlight 操作の一部処理
+*  PreFlight
 */
 
 #include "state/headers/PreFlightHeaders.hpp"
