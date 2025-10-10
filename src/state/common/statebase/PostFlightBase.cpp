@@ -2,6 +2,8 @@
 
 StateErrorCode PostFlightBase::enter(StateContext& context) {
 
+    onEnter(context);
+
     return StateErrorCode::NONE;
 }
 
@@ -31,6 +33,8 @@ StateResult PostFlightBase::update(StateContext& context) {
 }
 
 StateErrorCode PostFlightBase::exit(StateContext& context) {
+
+    onExit(context);
 
     return StateErrorCode::NONE;
 }

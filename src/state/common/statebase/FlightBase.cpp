@@ -2,6 +2,8 @@
 
 StateErrorCode FlightBase::enter(StateContext& context) {
 
+    onEnter(context);
+
     return StateErrorCode::NONE;
 }
 
@@ -35,6 +37,8 @@ StateResult FlightBase::update(StateContext& context) {
 }
 
 StateErrorCode FlightBase::exit(StateContext& context) {
+
+    onExit(context);
 
     return StateErrorCode::NONE;
 }

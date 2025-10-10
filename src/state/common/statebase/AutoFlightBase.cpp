@@ -2,6 +2,8 @@
 
 StateErrorCode AutoFlightBase::enter(StateContext& context) {
 
+    onEnter(context);
+
     return StateErrorCode::NONE;
 }
 
@@ -31,6 +33,8 @@ StateResult AutoFlightBase::update(StateContext& context) {
 }
 
 StateErrorCode AutoFlightBase::exit(StateContext& context) {
+
+    onExit(context);
 
     return StateErrorCode::NONE;
 }

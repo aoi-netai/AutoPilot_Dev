@@ -9,8 +9,10 @@ class DisarmState: public PostFlightBase{
 
         ~DisarmState() = default;
 
+        StateErrorCode onEnter(StateContext& context) override;
         StateErrorCode onUpdate(StateContext& context) override;
         StateID decideNextState(StateContext& context) override;
+        StateErrorCode onExit(StateContext& context) override;
         const StateID getStateID() const override {return StateID::DISARM_STATE;}
 };
 
@@ -20,8 +22,10 @@ class FailSafeState: public PostFlightBase{
 
         ~FailSafeState() = default;
 
+        StateErrorCode onEnter(StateContext& context) override;
         StateErrorCode onUpdate(StateContext& context) override;
         StateID decideNextState(StateContext& context) override;
+        StateErrorCode onExit(StateContext& context) override;
         const StateID getStateID() const override {return StateID::FAIL_SAFE_STATE;}
 };
 

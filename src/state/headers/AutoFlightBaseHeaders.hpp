@@ -9,8 +9,10 @@ class AutoFlightState: public AutoFlightBase{
 
         ~AutoFlightState() = default;
 
+        StateErrorCode onEnter(StateContext& context) override;
         StateErrorCode onUpdate(StateContext& context) override;
         StateID decideNextState(StateContext& context) override;
+        StateErrorCode onExit(StateContext& context) override;
         const StateID getStateID() const override {return StateID::AUTO_FLIGHT_STATE;}
 };
 

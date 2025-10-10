@@ -19,10 +19,8 @@ struct SbusData {
     bool lost_frame = false;    // Frame lost status
 };
 
-// 状態間で共有する変数やインスタンス
-struct StateContext {
-
-    uint32_t loop_count = 0; // デバック用 実装の際には各状態のメンバーで持ってください
+// センサーデータ構造体
+struct SensorData{
 
     float accel[3] = {};
     float gyro[3] = {};
@@ -30,15 +28,34 @@ struct StateContext {
     float pressure = 0.0f;
     float temperature = 0.0f;
     float tof_distance = 0.0f;
+};
 
-    float angle[3] = {}; // Roll, Pitch, Yaw
-    float rate[3] = {};  // Angular velocity around Roll, Pitch, Yaw
-    float altitude = 0.0f; // Altitude from ground level
+// 姿勢データ構造体
+struct AttitudeData{
+
+    float angle[3] = {};
+    float rate[3] = {};
+    float altitude = 0.0f;
+};
+
+// PWMデータ構造体
+struct PwmData{
+
+    // throttle, roll, pitch, yaw
+    uint16_t pwm[4] = {};
+};
+
+// 状態間で共有する変数やインスタンス
+struct StateContext {
+
+    uint32_t loop_count = 0; // デバック用 実装の際には各状態のメンバーで持ってください
+
 
     SbusData sbus_data;
     InitFlags init_flags;
-
-    // PIDやPWM、場合によってはシリアルやセンサーのインスタンスを追加して共有しておく
+    SensorData sensor_data;
+    AttitudeData attitude_data;
+    PwmData pwm_data;
 };
 
 

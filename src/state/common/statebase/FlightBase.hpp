@@ -28,8 +28,10 @@ class FlightBase: public StateInterface {
         // 状態IDの取得
         virtual const StateID getStateID() const = 0;
 
-        // 各状態での処理（姿勢と目標値からPWMを計算する）
+        // 各状態での処理
+        virtual StateErrorCode onEnter(StateContext& context) {return StateErrorCode::NONE;};
         virtual StateErrorCode calcPwm(StateContext& context) = 0;
+        virtual StateErrorCode onExit(StateContext& context) {return StateErrorCode::NONE;};
 
         // 各状態での状態遷移処理
         virtual StateID decideNextState(StateContext& context) = 0;     

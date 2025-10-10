@@ -2,6 +2,8 @@
 
 StateErrorCode PreFlightBase::enter(StateContext& context) {
 
+    onEnter(context);
+
     return StateErrorCode::NONE;
 }
 
@@ -31,6 +33,8 @@ StateResult PreFlightBase::update(StateContext& context) {
 }
 
 StateErrorCode PreFlightBase::exit(StateContext& context) {
+
+    onExit(context);
 
     return StateErrorCode::NONE;
 }

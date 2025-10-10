@@ -9,8 +9,10 @@ class InitState: public PreFlightBase{
 
         ~InitState() = default;
 
+        StateErrorCode onEnter(StateContext& context) override;
         StateErrorCode onUpdate(StateContext& context) override;
         StateID decideNextState(StateContext& context) override;
+        StateErrorCode onExit(StateContext& context) override;
         const StateID getStateID() const override {return StateID::INIT_STATE;}
 };
 
@@ -20,8 +22,10 @@ class CalibrationState: public PreFlightBase{
 
         ~CalibrationState() = default;
 
+        StateErrorCode onEnter(StateContext& context) override;
         StateErrorCode onUpdate(StateContext& context) override;
         StateID decideNextState(StateContext& context) override;
+        StateErrorCode onExit(StateContext& context) override;
         const StateID getStateID() const override {return StateID::CALIBRATION_STATE;}
 };
 
@@ -31,8 +35,10 @@ class PreFlightState: public PreFlightBase{
 
         ~PreFlightState() = default;
 
+        StateErrorCode onEnter(StateContext& context) override;
         StateErrorCode onUpdate(StateContext& context) override;
         StateID decideNextState(StateContext& context) override;
+        StateErrorCode onExit(StateContext& context) override;
         const StateID getStateID() const override {return StateID::PRE_FLIGHT_STATE;}
 };
 

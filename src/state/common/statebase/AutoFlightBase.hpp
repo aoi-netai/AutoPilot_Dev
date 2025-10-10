@@ -29,7 +29,9 @@ class AutoFlightBase: public StateInterface {
         virtual const StateID getStateID() const = 0;
 
         // 各状態での処理
+        virtual StateErrorCode onEnter(StateContext& context) {return StateErrorCode::NONE;};
         virtual StateErrorCode onUpdate(StateContext& context) = 0;
+        virtual StateErrorCode onExit(StateContext& context) {return StateErrorCode::NONE;};
 
         // 各状態での状態遷移処理
         virtual StateID decideNextState(StateContext& context) = 0;     

@@ -1,17 +1,31 @@
-/* InitState.cpp
-* 
-*  センサーや通信の初期化チェックを行う
-*  context.init_flagsを参照、更新することで判定を行う
+/* ClimbingTurnState.cpp
+*
+*  上昇ターン処理
 */
 
 #include "state/headers/FlightBaseHeaders.hpp"
+
+StateErrorCode ClimbingTurnState::onEnter(StateContext& context) {
+
+    // 初期化処理を実装
+    // 成功したらcontext.init_flagsの必要項目をtrueにする
+
+    return StateErrorCode::NONE;
+}
+
+StateErrorCode ClimbingTurnState::calcPwm(StateContext& context) {
+
+    return StateErrorCode::NONE;
+}
 
 StateID ClimbingTurnState::decideNextState(StateContext& context) {
 
     return StateID::CLIMBING_TURN_STATE;
 }
 
-StateErrorCode ClimbingTurnState::calcPwm(StateContext& context) {
+StateErrorCode ClimbingTurnState::onExit(StateContext& context) {
+
+    // 終了処理を実装（必要なら）
 
     return StateErrorCode::NONE;
 }
