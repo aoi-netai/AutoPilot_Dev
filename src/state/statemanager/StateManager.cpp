@@ -6,11 +6,16 @@
 #include "state/headers/PostFlightBaseHeaders.hpp"
 #include "state/headers/AutoFlightBaseHeaders.hpp"
 
+#include <Arduino.h>
+
 // コンストラクタ
-StateManager::StateManager(StateID init_state_id) {
+StateManager::StateManager(StateID init_state_id, unsigned long defalut_loop_time_us) {
 
     // 移入された状態を current_state に設定
     current_state = createState(init_state_id);
+
+    // ループ時間を保存
+    this->defalut_loop_time_us = defalut_loop_time_us;
 
     // enter を呼ぶ
     if (current_state) {
@@ -49,18 +54,85 @@ void StateManager::changeState(std::unique_ptr<StateInterface> new_state) {
 // メインループの更新処理
 void StateManager::update() {
 
-    if (current_state) {
+    // current_state が nullptr の場合の安全対策
+    if (!current_state) {
 
-        // 現在状態の更新処理
-        StateResult result = current_state->update(state_context);
+        // current_state が nullptr の場合は FailSafeState に遷移
+        failsafe();
+    }
 
-        // 状態遷移が発生した場合
-        if (result.is_state_changed) {
-            
-            // 状態を変更
-            changeState(createState(result.next_state));
+    // ループ時間の計算とチェック
+    while(!checkLoopTime()) {
+
+        ;// 決められたループ時間が経過していない場合は待機
+    }
+
+    // 時間超過のチェック0.1ms以内の超過は許容
+    if(delta_time_us > defalut_loop_time_us + 100) { 
+
+
+        // 現在の状態を取得(initやcalibarationなどは安全に超過する可能性があるため)
+        StateID current_state_id = current_state->getStateID();
+
+        // 問題ない超過の場合は処理を続行
+        if(current_state_id != StateID::INIT_STATE && current_state_id != StateID::CALIBRATION_STATE) {
+
+            // 問題がある状態の場合はカウンターをインクリメント
+            loop_overrun_count++;
+
+            // 5回連続でループ時間が超過した場合は FailSafeState に遷移
+            if(loop_overrun_count >= 5) {
+
+                // FailSafeState に遷移
+                failsafe();
+            }
+
+            // ループ時間が超過している場合も処理を実行
         }
     }
+
+    // 現在状態の更新処理
+    StateResult result = current_state->update(state_context);
+
+    // 状態遷移が発生した場合
+    if (result.is_state_changed) {
+        
+        // 状態を変更
+        changeState(createState(result.next_state));
+    }
+}
+
+// ループ時間のチェック
+// 指定時間経過していれば true を返す
+// 計算した結果を delta_time_us に保存
+bool StateManager::checkLoopTime() {
+
+    unsigned long current_time_us = micros();
+
+    // 最初の実行時は待機しない
+    if (last_update_time_us == 0) {
+
+        last_update_time_us = current_time_us;
+        return true;
+    }
+
+    // 指定時間経過しているかの判定
+    delta_time_us = current_time_us - last_update_time_us;
+    if (delta_time_us >= defalut_loop_time_us) {
+
+        last_update_time_us = current_time_us;
+        loop_overrun_count = 0; // ループ時間超過カウンタをリセット
+        return true;
+    }
+
+    // 指定時間経過していない場合は待機
+    return false; 
+}
+
+void StateManager::failsafe() {
+
+    // 強制的に FailSafeState に遷移
+    changeState(createState(StateID::FAIL_SAFE_STATE));
 }
 
 // 状態IDから状態クラスのオブジェクトを生成
