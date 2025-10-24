@@ -39,10 +39,9 @@ class StateManager {
         // StateContext をオブジェクトとして保持し、各状態処理に参照で渡す
         StateContext state_context;
 
-        unsigned long defalut_loop_time_us = 1000; // ループ時間（マイクロ秒）
-        unsigned long last_update_time_us = 0; // 最後の更新時間（マイクロ秒）
-        unsigned long delta_time_us = 0; // 前回からの経過時間（マイクロ秒）
-        uint8_t loop_overrun_count = 0; // ループ時間超過カウンタ
+        // ループ時間管理用
+        LoopManager loop_manager;
 };
+
 
 #endif // STATE_MANAGER_HPP

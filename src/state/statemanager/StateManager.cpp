@@ -1,4 +1,5 @@
 #include "StateManager.hpp"
+#include "LoopManager.hpp"
 #include <cstdio>
 
 #include "state/headers/PreFlightHeaders.hpp"
@@ -14,8 +15,8 @@ StateManager::StateManager(StateID init_state_id, unsigned long defalut_loop_tim
     // 移入された状態を current_state に設定
     current_state = createState(init_state_id);
 
-    // ループ時間を保存
-    this->defalut_loop_time_us = defalut_loop_time_us;
+    // LoopManagerの初期化
+    loop_manager = LoopManager(defalut_loop_time_us);
 
     // enter を呼ぶ
     if (current_state) {
@@ -67,30 +68,6 @@ void StateManager::update() {
         ;// 決められたループ時間が経過していない場合は待機
     }
 
-    // 時間超過のチェック0.1ms以内の超過は許容
-    if(delta_time_us > defalut_loop_time_us + 100) { 
-
-
-        // 現在の状態を取得(initやcalibarationなどは安全に超過する可能性があるため)
-        StateID current_state_id = current_state->getStateID();
-
-        // 問題ない超過の場合は処理を続行
-        if(current_state_id != StateID::INIT_STATE && current_state_id != StateID::CALIBRATION_STATE) {
-
-            // 問題がある状態の場合はカウンターをインクリメント
-            loop_overrun_count++;
-
-            // 5回連続でループ時間が超過した場合は FailSafeState に遷移
-            if(loop_overrun_count >= 5) {
-
-                // FailSafeState に遷移
-                failsafe();
-            }
-
-            // ループ時間が超過している場合も処理を実行
-        }
-    }
-
     // 現在状態の更新処理
     StateResult result = current_state->update(state_context);
 
@@ -100,33 +77,6 @@ void StateManager::update() {
         // 状態を変更
         changeState(createState(result.next_state));
     }
-}
-
-// ループ時間のチェック
-// 指定時間経過していれば true を返す
-// 計算した結果を delta_time_us に保存
-bool StateManager::checkLoopTime() {
-
-    unsigned long current_time_us = micros();
-
-    // 最初の実行時は待機しない
-    if (last_update_time_us == 0) {
-
-        last_update_time_us = current_time_us;
-        return true;
-    }
-
-    // 指定時間経過しているかの判定
-    delta_time_us = current_time_us - last_update_time_us;
-    if (delta_time_us >= defalut_loop_time_us) {
-
-        last_update_time_us = current_time_us;
-        loop_overrun_count = 0; // ループ時間超過カウンタをリセット
-        return true;
-    }
-
-    // 指定時間経過していない場合は待機
-    return false; 
 }
 
 void StateManager::failsafe() {

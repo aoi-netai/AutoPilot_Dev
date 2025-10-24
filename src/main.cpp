@@ -1,5 +1,3 @@
-#include <Arduino.h>
-
 #include "state/statemanager/StateManager.hpp"
 
 StateManager stateManager(StateID::INIT_STATE, 1000);// 1msごとにループ
