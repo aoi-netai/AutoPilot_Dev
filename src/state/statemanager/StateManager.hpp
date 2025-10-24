@@ -2,6 +2,7 @@
 #define STATE_MANAGER_HPP
 
 #include <memory>
+#include "LoopManager.hpp"
 #include "state/common/interface/StateInterface.hpp"
 #include "state/common/StateContext.hpp"
 #include "state/common/StateUtility.hpp"

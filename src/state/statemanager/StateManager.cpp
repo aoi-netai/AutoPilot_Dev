@@ -85,6 +85,12 @@ void StateManager::failsafe() {
     changeState(createState(StateID::FAIL_SAFE_STATE));
 }
 
+// ループ時間のチェック
+bool StateManager::checkLoopTime() {
+
+    return loop_manager.isWaitNextLoop();
+}
+
 // 状態IDから状態クラスのオブジェクトを生成
 std::unique_ptr<StateInterface> StateManager::createState(StateID state_id) {
 
